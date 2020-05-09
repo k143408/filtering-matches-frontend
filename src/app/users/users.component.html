@@ -1,0 +1,119 @@
+<div class="container">
+  <div class="col-md-12">
+    <h3 *ngIf="current_user">Current User : {{current_user.display_name}}</h3>
+    <h5>Location : {{current_user.city.lon}},{{current_user.city.lat}}</h5>
+    <h5 class="mb-3 left-center">Filter Criteria</h5>
+    <fieldset class="form-group">
+      <div class="row clearfix">
+        <legend class="col-form-label col-sm-2 pt-0">Has Photo</legend>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <input class="form-check-input" [(ngModel)]="filterRequest.hasPhoto" type="checkbox" name="hasPhotoRadios"
+                   id="hasPhoto" value="true">
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="form-group">
+      <div class="row">
+        <legend class="col-form-label col-sm-2 pt-0">In Contact</legend>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <input class="form-check-input" [(ngModel)]="filterRequest.inContact" type="checkbox" name="inContactRadios"
+                   id="inContactRadios1" value="true">
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="form-group">
+      <div class="row">
+        <legend class="col-form-label col-sm-2 pt-0">Favourite</legend>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <input class="form-check-input" [(ngModel)]="filterRequest.favourite" type="checkbox" name="favouriteRadios"
+                   id="favouriteRadios1" value="true">
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="form-group">
+      <div class="row">
+        <label for="compatibility" class="col-sm-2 col-form-label">Compatibility Score</label>
+        <div class="col-sm-10">
+          <ng5-slider id="compatibility" value="1" highValue="99" [options]="compatibility_options"
+                      (userChange)="setCompatibility($event)"></ng5-slider>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="form-group">
+      <div class="row">
+        <label for="age" class="col-sm-2 col-form-label">Age</label>
+        <div class="col-sm-10">
+          <ng5-slider id="age" value="18" highValue="95" [options]="age_options"
+                      (userChange)="setAge($event)"></ng5-slider>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="form-group">
+      <div class="row">
+        <label for="height" class="col-sm-2 col-form-label">Height</label>
+        <div class="col-sm-10 pb-1">
+          <ng5-slider id="height" value="135" highValue="210" [options]="height_options"
+                      (userChange)="setHeight($event)"></ng5-slider>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="form-group">
+      <div class="row">
+        <label class="col-sm-2 col-form-label" for="distance">Distance</label>
+        <div class="col-sm-10">
+          <select class="form-control" id="distance" [(ngModel)]="filterRequest.distance">
+            <option disabled> Select</option>
+            <option value="30"> < 30 km</option>
+            <option value="300"> > 300 km</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+    <div class="form-group row">
+      <label for="age" class="col-sm-2 col-form-label"></label>
+      <div class="col-sm-2">
+        <button class="btn btn-secondary btn-md btn-block" (click)="filterUsers()">Filter</button>
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-info btn-md btn-block" (click)="refresh()">Refresh</button>
+      </div>
+    </div>
+
+    <div *ngIf="users.length !== 0">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Age</th>
+          <th scope="col">Job</th>
+          <th scope="col">Height</th>
+          <th scope="col">City</th>
+          <th scope="col">Score</th>
+          <th scope="col">Contact</th>
+          <th scope="col">Favourite</th>
+          <th scope="col">Location</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{user.display_name}} <img class="img-thumbnail" src="{{user.main_photo}}"></td>
+          <td>{{user.age}}</td>
+          <td>{{user.job_title}}</td>
+          <td>{{user.height_in_cm}}</td>
+          <td>{{user.city.name}}</td>
+          <td>{{user.compatibility_score}}</td>
+          <td>{{user.contacts_exchanged}}</td>
+          <td>{{user.favourite}}</td>
+          <td>{{user.city.lon}},{{user.city.lat}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
